@@ -531,6 +531,7 @@ func main() {
 	level.Info(logger).Log("msg", "Starting bind_exporter", "version", version.Info())
 	level.Info(logger).Log("msg", "Build context", "build_context", version.BuildContext())
 	level.Info(logger).Log("msg", "Collectors enabled", "collectors", groups.String())
+	level.Info(logger).Log("msg", "HTTP XML API address of BIND server", "bind_uri", bindURI)
 
 	prometheus.MustRegister(
 		version.NewCollector(exporter),
