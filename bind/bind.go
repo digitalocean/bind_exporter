@@ -16,7 +16,6 @@ package bind
 import (
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"path"
@@ -63,11 +62,8 @@ func (c *XMLClient) Get(p string, v interface{}) error {
 		return fmt.Errorf("unexpected status %s", resp.Status)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("failed to read response: %s", err)
-	}
-	if err := xml.Unmarshal([]byte(body), v); err != nil {
+	dec := xml.NewDecoder(resp.Body)
+	if err := dec.Decode(v); err != nil {
 		return fmt.Errorf("failed to unmarshal XML response: %s", err)
 	}
 
